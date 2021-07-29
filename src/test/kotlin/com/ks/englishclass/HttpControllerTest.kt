@@ -78,4 +78,14 @@ class HttpControllerTest {
       .andDo(MockMvcResultHandlers.print())
   }
 
+  @Test
+  fun `Test deleting sentence with id`() {
+
+    mockMvc.perform(
+      MockMvcRequestBuilders
+        .delete("/delete")
+    )
+      .andExpect(MockMvcResultMatchers.status().isNotFound)
+      .andDo(MockMvcResultHandlers.print())
+  }
 }
