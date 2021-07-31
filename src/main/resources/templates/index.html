@@ -21,11 +21,21 @@
 <body style="border-width: 1px;border-style: none;">
 <div class="container">
   <div class="text-center" style="margin-top: 30px;">
-    <button class="btn btn-primary btn-sm text-center" style="margin-left: 10px;border-style: solid;" type="button">
-      Button
+    <button
+        class="btn btn-primary btn-sm text-center"
+        style="margin-left: 10px;border-style: solid;"
+        th:unless="${isEditor}"
+        type="button"
+    >
+      <a style="color: #f1f7fc;font-weight: bold;" th:href="@{/edit}"> Editor</a>
     </button>
-    <button class="btn btn-success btn-sm text-center" style="margin-left: 10px;border-style: solid;" type="button">
-      Button
+    <button
+        class="btn btn-success btn-sm text-center"
+        style="margin-left: 10px;border-style: solid;"
+        th:if="${isEditor}"
+        type="button"
+    >
+      <a style="color: #f1f7fc;font-weight: bold;" th:href="@{/}"> Sentence</a>
     </button>
   </div>
 </div>
@@ -33,20 +43,109 @@
   <div class="d-flex flex-column flex-fill">
     <input
         class="border rounded-0 form-control-lg"
-        readonly=""
         style="margin-top: 15px;"
+        th:id="s1"
+        th:readonly="${isEditor}==false"
+        th:value="${s2}"
         type="text"
-        th:value="${s1}"
     >
+
+
+    <input
+        class="border rounded-0 form-control-lg"
+        style="margin-top: 15px; display: none;"
+        th:id="s3"
+        th:if="${isEditor}==false"
+        th:readonly="${isEditor}==false"
+        th:value="${s1}"
+        type="text"
+    >
+
+
     <input
         autocomplete="off"
         autofocus=""
         class="border rounded-0 border-info shadow-sm form-control-sm"
         style="margin-top: 15px;border-style: none;"
-        type="text">
-    <button class="btn btn-light btn-sm border rounded-0" style="margin-top: 33px;" type="submit">Button</button>
+        th:id="s2"
+        type="text"
+    >
+    <button
+        class="btn btn-light btn-sm border rounded-0"
+        style="margin-top: 33px;"
+        th:id="addbtn"
+        th:if="${isEditor}"
+        type="submit"
+    >
+      Add
+    </button>
+    <button
+        class="btn btn-light btn-sm border rounded-0"
+        style="margin-top: 33px;"
+        th:unless="${isEditor}"
+        type="submit"
+    >
+      Submit
+    </button>
   </div>
 </div>
+
+<script crossorigin="anonymous"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(
+    function () {
+      let s1 = $('#s1')
+      let s2 = $('#s2')
+
+      $('#addbtn').on('click', function () {
+        let s1_v = s1.val()
+        let s2_v = s2.val()
+
+        if (s1_v != "" && s2_v != "") {
+          $.ajax({
+            type: 'POST',
+            url: '/save',
+            dataTypes: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(
+              {
+                "s1": s1_v,
+                "s2": s2_v
+              }
+            ),
+            beforeSend: function () {
+              $('#addbtn').text('...')
+            },
+            success: function () {
+              $('#addbtn').text('Add')
+              s1.val('')
+              s2.val('')
+              s1.focus()
+            },
+            error: function () {
+              $('#addbtn').text('Add')
+            }
+          })
+        }
+      })
+
+      $(document).keydown(function (e) {
+        if (e.keyCode == 38) {
+          let s3 = $('#s3')
+
+          if (s3.css("display") == 'none') {
+            s3.css('display', '')
+          } else {
+            s3.css('display', 'none')
+          }
+        }
+      });
+    }
+  )
+</script>
 
 </body>
 
