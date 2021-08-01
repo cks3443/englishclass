@@ -16,6 +16,9 @@
   <link rel="stylesheet" th:href="@{/css/Pretty-Table-1.css}">
   <link rel="stylesheet" th:href="@{/css/Pretty-Table.css}">
   <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&family=Rubik:wght@300&display=swap" rel="stylesheet">
 </head>
 
 <body style="border-width: 1px;border-style: none;">
@@ -43,7 +46,7 @@
   <div class="d-flex flex-column flex-fill">
     <input
         class="border rounded-0 form-control-lg"
-        style="margin-top: 15px;"
+        style="margin-top: 15px;font-family: 'Noto Sans KR', sans-serif;"
         th:id="s1"
         th:readonly="${isEditor}==false"
         th:value="${s2}"
@@ -53,7 +56,7 @@
 
     <input
         class="border rounded-0 form-control-lg"
-        style="margin-top: 15px; display: none;"
+        style="margin-top: 15px; display: none;font-family: 'Rubik', sans-serif;"
         th:id="s3"
         th:if="${isEditor}==false"
         th:readonly="${isEditor}==false"
