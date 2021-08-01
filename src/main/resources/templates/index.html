@@ -82,6 +82,7 @@
     <button
         class="btn btn-light btn-sm border rounded-0"
         style="margin-top: 33px;"
+        th:id="submitbtn"
         th:unless="${isEditor}"
         type="submit"
     >
@@ -141,8 +142,14 @@
           } else {
             s3.css('display', 'none')
           }
+        } else if (e.keyCode == 39) {
+          location.href = '/'
         }
       });
+
+      $('#submitbtn').on('click', function () {
+        location.href = '/'
+      })
     }
   )
 </script>
